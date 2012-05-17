@@ -3,6 +3,7 @@ require "stache/config"
 require "stache/util"
 require "stache/handler"
 require "stache/asset_helper"
+require "stache/layout"
 
 if defined? ::Rails::Railtie and ::Rails::VERSION::MAJOR >= 3
   require 'stache/railtie'
