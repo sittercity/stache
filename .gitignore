@@ -39,4 +39,4 @@ spec/dummy/log/
 #.\#*
 #
 # For vim:
-#*.swp
+*.swp
