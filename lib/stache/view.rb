@@ -33,6 +33,17 @@ module Stache
       # ::Rails.logger.info "LOADING PARTIAL: #{partial_path}"
       File.read(partial_path)
     end
-    
+
+    def helpers
+      self.class.helpers
+    end
+    alias :h :helpers
+
+    class << self
+      def helpers
+        Stache::ViewContext.current
+      end
+      alias :h :helpers
+    end
   end
 end
