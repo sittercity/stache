@@ -29,8 +29,17 @@ module Stache
           variables -= controller.protected_instance_variables
         end
 
+        attr_readers = variables.map { |name| name.sub(/^@/, '').to_sym }
+        attr_readers = attr_readers.find_all { |sym| !mustache.respond_to?(sym) }
+
         variables.each do |name|
           mustache.instance_variable_set(name, controller.instance_variable_get(name))
+        end
+
+        # Declaring an +attr_reader+ for each instance variable in the
+        # Stache::View subclass makes them available to your templates.
+        mustache.class.class_eval do
+          attr_reader *attr_readers
         end
 
         mustache.render.html_safe
