@@ -9,5 +9,8 @@ class StacheController < ApplicationController
     @user = params[:user] || "Matt"
     @thing = "Grue"
   end
+
+  def with_layout
+  end
   
 end

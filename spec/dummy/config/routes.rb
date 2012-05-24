@@ -2,6 +2,7 @@ Dummy::Application.routes.draw do
   get 'stache', :to => 'stache#index', :as => 'stache'
   
   get 'stache/with_partials', :to => 'stache#with_partials'
+  get 'stache/with_layout', :to => 'stache#with_layout'
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

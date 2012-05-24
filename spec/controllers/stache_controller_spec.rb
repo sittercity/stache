@@ -1,8 +1,9 @@
 require 'spec_helper'
+require 'dummy/app/views/stache/with_layout'
 
 describe StacheController do
   render_views
-  
+
   it "can get to index and render a Mustache" do
     get :index
     assert_response 200
@@ -10,14 +11,11 @@ describe StacheController do
     response.should render_template 'index'               # view
     response.body.should =~ /Hello, Matt!/
   end
-  
-  it "correctly renders partials" do
-    get :with_partials
+
+  it 'correctly renders partials with a layout class' do
+    get :with_layout
     assert_response 200
-    
-    response.body.should =~ /Grue/
-    # puts response.body
+
+    response.body.should == "foobar\n#wrapper\nthis is a test partial\n\n#end_wrapper\n"
   end
-  
-  
 end
