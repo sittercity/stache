@@ -16,6 +16,6 @@ describe StacheController do
     get :with_layout
     assert_response 200
 
-    response.body.should == "foobar\n#wrapper\nthis is a test partial\n\n#end_wrapper\n"
+    response.body.should == "#wrapper\nfoobar\nthis is a test partial\n\n#end_wrapper\n"
   end
 end
