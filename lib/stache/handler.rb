@@ -14,12 +14,12 @@ module Stache
       #
       # get a custom Mustache, or the default Stache::View
       mustache_class = mustache_class_from_template(template)
-
       # Return a string that will be eval'd in the context of the ActionView, ugly, but it works.
       <<-MUSTACHE
-        mustache = ::#{mustache_class}.new
+        mustache = #{mustache_class}.new
         mustache.view = self
-        mustache.template = '#{template.source.gsub(/'/, "\\\\'")}'
+        template_name = mustache.template_name+".#{template.formats.first.to_s}."+mustache.template_extension
+        mustache.template = File.read(File.join(::Stache.template_base_path, template_name))
         mustache.virtual_path = '#{template.virtual_path.to_s}'
         mustache.context.update(local_assigns)
         variables = controller.instance_variable_names

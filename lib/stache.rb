@@ -21,4 +21,5 @@ module Stache
 end
 
 ActionView::Template.register_template_handler(:mustache, Stache::Handler)
+ActionView::Template.register_template_handler(:rb, Stache::Handler)
 ActionView::Base.send :include, Stache::AssetHelper

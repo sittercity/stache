@@ -12,8 +12,8 @@ describe Stache::AssetHelper do
   
   describe "#template_include_tag" do
     it "renders a script tag with the template contents" do
-      File.stub!(:file?).with(Rails.root.join("app/views/widgets/_oh_herro.html.mustache").to_s).and_return(true)
-      File.stub!(:open).with(Rails.root.join("app/views/widgets/_oh_herro.html.mustache"), "rb").
+      File.stub!(:file?).with(Rails.root.join("app/templates/widgets/_oh_herro.html.mustache").to_s).and_return(true)
+      File.stub!(:open).with(Rails.root.join("app/templates/widgets/_oh_herro.html.mustache"), "rb").
         and_return(StringIO.new("{{ awyeah }}"))
 
       helper.template_include_tag("widgets/oh_herro").should == "<script id=\"oh_herro_template\" type=\"text/html\">{{ awyeah }}</script>"

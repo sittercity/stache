@@ -31,5 +31,6 @@ module Stache
     def shared_path
       @shared_path ||= ::Rails.root.join('app', 'templates', 'shared')
     end
+
   end
 end
