@@ -14,12 +14,22 @@ module Stache
       #
       # get a custom Mustache, or the default Stache::View
       mustache_class = mustache_class_from_template(template)
+
       # Return a string that will be eval'd in the context of the ActionView, ugly, but it works.
       <<-MUSTACHE
         mustache = #{mustache_class}.new
         mustache.view = self
-        template_name = mustache.template_name+".#{template.formats.first.to_s}."+mustache.template_extension
-        mustache.template = File.read(File.join(::Stache.template_base_path, template_name))
+
+        # If we are rendering an abstract Stache::View class, don't render any template.
+        # This is normally used because of rspec-rails and how stupid rails view rendering works.
+        if #{mustache_class} == Stache::View
+          template_source = ''
+        else
+          template_name = mustache.template_name+".#{template.formats.first.to_s}."+mustache.template_extension
+          template_source = File.read(File.join(::Stache.template_base_path, template_name))
+        end
+
+        mustache.template = template_source
         mustache.virtual_path = '#{template.virtual_path.to_s}'
         mustache.context.update(local_assigns)
         variables = controller.instance_variable_names
@@ -53,6 +63,13 @@ module Stache
 
     # suss out a constant name for the given template
     def mustache_class_from_template(template)
+      # If we don't have a source template to render, return an abstract view class.
+      # This is normally used with rspec-rails. You probably never want to normally 
+      # render a bare Stache::View
+      if template.source.empty?
+        return Stache::View
+      end
+
       const_name = ActiveSupport::Inflector.camelize(template.virtual_path.to_s)
       begin
         const_name.constantize
